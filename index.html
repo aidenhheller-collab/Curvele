@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Curvele</title>
   <style>
     :root {
@@ -62,6 +62,7 @@
         radial-gradient(circle at top, rgba(117, 162, 255, 0.24), transparent 30%),
         radial-gradient(circle at bottom right, rgba(182, 111, 255, 0.18), transparent 28%),
         linear-gradient(180deg, color-mix(in srgb, var(--bg) 84%, #11192c) 0%, var(--bg) 42%, color-mix(in srgb, var(--bg) 74%, #0a101d) 100%);
+      touch-action: manipulation;
     }
 
     button,
@@ -126,6 +127,7 @@
       cursor: pointer;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       transition: transform 120ms ease, filter 120ms ease;
+      touch-action: manipulation;
     }
 
     .icon-btn:hover,
@@ -259,6 +261,8 @@
       font-weight: 800;
       cursor: pointer;
       padding: 0 10px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .key-btn.wide {
@@ -856,21 +860,36 @@
 
       .topbar {
         display: grid;
-        grid-template-columns: 1fr;
-        justify-items: center;
-        gap: 10px;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 8px;
         padding: 10px 0 14px;
       }
 
       .top-actions {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+        flex-wrap: nowrap;
+      }
+
+      .title-wrap {
+        min-width: 0;
+      }
+
+      .eyebrow {
+        font-size: 0.58rem;
+        letter-spacing: 0.16em;
+      }
+
+      .title {
+        font-size: clamp(1.2rem, 6vw, 1.7rem);
       }
 
       .icon-btn,
       .action-btn {
-        padding: 10px 13px;
+        padding: 9px 10px;
+        font-size: 0.84rem;
+        border-radius: 12px;
       }
 
       .graph-card {
@@ -934,7 +953,7 @@
         bottom: 0;
         z-index: 3;
         gap: 6px;
-        padding: 10px 8px calc(10px + env(safe-area-inset-bottom, 0px));
+        padding: 12px 8px calc(12px + env(safe-area-inset-bottom, 0px));
         border-radius: 18px 18px 0 0;
         background: linear-gradient(180deg, rgba(8, 12, 24, 0.18), rgba(8, 12, 24, 0.84));
         backdrop-filter: blur(12px);
@@ -951,14 +970,15 @@
       .key-btn {
         min-width: 0;
         flex: 1 1 0;
-        height: 44px;
+        height: 52px;
         padding: 0 4px;
-        font-size: 0.95rem;
+        font-size: 1rem;
+        border-radius: 14px;
       }
 
       .key-btn.wide {
         flex: 1.45 1 0;
-        min-width: 56px;
+        min-width: 66px;
       }
 
       .modal {
@@ -997,6 +1017,24 @@
         grid-template-columns: 66px minmax(0, 1fr);
       }
 
+      .topbar {
+        gap: 6px;
+      }
+
+      .eyebrow {
+        font-size: 0.5rem;
+        letter-spacing: 0.12em;
+      }
+
+      .title {
+        font-size: 1.05rem;
+      }
+
+      .icon-btn {
+        padding: 8px 8px;
+        font-size: 0.76rem;
+      }
+
       .selector-chip {
         width: 66px;
         min-height: 56px;
@@ -1021,8 +1059,8 @@
       }
 
       .key-btn {
-        height: 40px;
-        font-size: 0.88rem;
+        height: 48px;
+        font-size: 0.92rem;
       }
     }
   </style>
@@ -1372,7 +1410,7 @@
       lastAnimatedGuessIndex: -1,
       lightMode: false,
       easyMode: false,
-      keyboardLayout: "abc",
+      keyboardLayout: "qwerty",
       isTouchDevice: window.matchMedia("(pointer: coarse)").matches,
       playerName: "",
       previewNeedsResetWarning: true,
