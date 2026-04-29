@@ -437,6 +437,63 @@
       animation-delay: var(--flash-delay, 0ms);
     }
 
+    .victory-toast {
+      min-width: 250px;
+      background: rgba(14, 18, 34, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.36);
+    }
+
+    .victory-toast strong,
+    .victory-toast span {
+      display: block;
+    }
+
+    .victory-toast strong {
+      font-size: 1.04rem;
+      margin-bottom: 4px;
+    }
+
+    .victory-toast span {
+      color: #d6e4ff;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .scare-overlay {
+      z-index: 45;
+      background: #000;
+      place-items: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .scare-face {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    .scare-face-image {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: none;
+      filter: contrast(1.08) brightness(0.82);
+    }
+
+    .scare-overlay.face-live .scare-face {
+      opacity: 1;
+    }
+
+    .scare-overlay.face-live .scare-face-image.has-image {
+      display: block;
+    }
+
+    .scare-overlay.blackout .scare-face {
+      opacity: 0;
+    }
+
     #resultWord,
     #resultLastGuess {
       white-space: nowrap;
@@ -487,6 +544,7 @@
       background: rgba(24, 36, 59, 0.92);
       color: #f6f8ff;
     }
+
 
     .overlay {
       position: fixed;
@@ -799,7 +857,7 @@
     @keyframes resultIn {
       0% {
         opacity: 0;
-        transform: translateY(-28px) scale(0.98);
+        transform: translateY(32px) scale(0.98);
       }
       100% {
         opacity: 1;
@@ -808,6 +866,17 @@
     }
 
     @keyframes drawLine {
+      0% {
+        opacity: 0;
+        stroke-dashoffset: var(--path-length);
+      }
+      100% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes drawLineVictory {
       0% {
         opacity: 0;
         stroke-dashoffset: var(--path-length);
@@ -845,6 +914,17 @@
       66% { color: #57c7ff; }
       83% { color: #b88cff; }
       100% { color: #ff5f6d; }
+    }
+
+    @keyframes scarePulse {
+      0% {
+        transform: scale(0.94);
+        opacity: 0.92;
+      }
+      100% {
+        transform: scale(1.04);
+        opacity: 1;
+      }
     }
 
     @media (max-width: 720px) {
@@ -1282,7 +1362,7 @@
         <label class="setting-item">
           <div>
             <strong>Easy Mode</strong>
-            <span>Use the smaller set of more common answer words. You can still guess any allowed word.</span>
+            <span>Show extra graph guide hints while keeping the same answer pool.</span>
           </div>
           <input id="easyModeToggle" class="toggle" type="checkbox">
         </label>
@@ -1311,6 +1391,13 @@
     </div>
   </div>
 
+  <div id="scareOverlay" class="overlay scare-overlay" hidden>
+    <div class="scare-face" aria-hidden="true">
+      <img id="scareFaceImage" class="scare-face-image" alt="">
+    </div>
+  </div>
+
+  <script src="guess-words.js"></script>
   <script src="words.js"></script>
   <script>
     const svg = document.getElementById("graph");
@@ -1321,6 +1408,8 @@
     const status = document.getElementById("status");
     const hintRow = document.getElementById("hintRow");
     const input = document.getElementById("wordInput");
+    const pageTitle = document.querySelector(".title");
+    const startTitle = document.querySelector(".start-title");
     const newGameButton = document.getElementById("newGame");
     const settingsButton = document.getElementById("settingsButton");
     const helpButton = document.getElementById("helpButton");
@@ -1354,6 +1443,8 @@
     const confirmCopy = document.getElementById("confirmCopy");
     const confirmCancel = document.getElementById("confirmCancel");
     const confirmContinue = document.getElementById("confirmContinue");
+    const scareOverlay = document.getElementById("scareOverlay");
+    const scareFaceImage = document.getElementById("scareFaceImage");
 
     const WIDTH = 720;
     const HEIGHT = 380;
@@ -1376,6 +1467,7 @@
       "PLAIN", "RIVER", "SHAPE", "SHINE", "SKYER", "SPARK", "SWING", "TRACE"
     ];
     const EASTER_WORD = "AIDEN";
+    const BRYCE_WORD = "BRYCE";
     const BANNED_WORDS = new Set([
       "YECCH", "OGLES", "STOAE", "MASSE", "MUSOS", "AHHHH", "PFFFT", "SHMOO", "GOONY",
       "GOOKS", "NERTS", "CUNTS", "WHORE", "KIKES", "FUCKS", "SPICS", "GONNA", "WANNA",
@@ -1385,10 +1477,13 @@
       "BAIZE", "LITHO", "VOXEL", "DIXIT", "UMIAK", "DJINN", "ZLOTY", "OXBOW", "IXNAY",
       "KVELL", "JIHAD", "DHOWS", "YENTA", "MIAOW", "PSEUD", "KAPPA", "MUCUS", "CURIA"
     ]);
-    const FULL_WORDS = Array.isArray(window.CURVELE_WORDS) && window.CURVELE_WORDS.length
+    const ANSWER_WORDS = Array.isArray(window.CURVELE_WORDS) && window.CURVELE_WORDS.length
       ? window.CURVELE_WORDS
       : WORDS;
-    const ALLOWED_WORDS = [...new Set(FULL_WORDS.filter((word) => !BANNED_WORDS.has(word)).concat(EASTER_WORD))];
+    const GUESS_WORDS = Array.isArray(window.CURVELE_GUESS_WORDS) && window.CURVELE_GUESS_WORDS.length
+      ? window.CURVELE_GUESS_WORDS
+      : ANSWER_WORDS;
+    const ALLOWED_WORDS = [...new Set(GUESS_WORDS.concat(ANSWER_WORDS, EASTER_WORD))];
     const KEYBOARD_LAYOUTS = {
       abc: [
         ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
@@ -1417,9 +1512,16 @@
       pendingResetAfterResult: false,
       pendingPreviewValue: "",
       pendingConfirmAction: null,
+      resultTimer: null,
+      scareTimer: null,
+      scareCooldown: false,
+      wonLastRound: false,
+      brandTimer: null,
+      bryceCount: 0,
+      answerHackVisible: false,
       allowedWords: new Set(ALLOWED_WORDS),
       fullAllowedWords: new Set(ALLOWED_WORDS),
-      answers: [...WORDS]
+      answers: [...ANSWER_WORDS]
     };
 
     function sanitizeWord(raw) {
@@ -1455,6 +1557,17 @@
         path += ` C ${cx1} ${cy1}, ${cx2} ${cy2}, ${next.x} ${next.y}`;
       }
       return path;
+    }
+
+    function pathSegmentFromPoints(points, index) {
+      if (!points[index] || !points[index + 1]) return "";
+      const current = points[index];
+      const next = points[index + 1];
+      const cx1 = current.x + (next.x - current.x) / 2;
+      const cy1 = current.y;
+      const cx2 = current.x + (next.x - current.x) / 2;
+      const cy2 = next.y;
+      return `M ${current.x} ${current.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${next.x} ${next.y}`;
     }
 
     function buildScaledSignaturePoints(name, width, height, paddingX, paddingY) {
@@ -1519,6 +1632,11 @@
       const activeSet = new Set(state.activeGuessIndices);
       const matchedPositions = Array(5).fill(false);
       const answerOutline = document.body.classList.contains("light-mode") ? "#1c2a44" : "rgba(0,0,0,0.32)";
+      const winningGuess = state.wonLastRound ? state.guesses[state.guesses.length - 1] : null;
+      const winningPoints = winningGuess ? buildPoints(winningGuess.word) : [];
+      const winningSegments = winningPoints.length
+        ? [0, 1, 2, 3].map((index) => pathSegmentFromPoints(winningPoints, index))
+        : [];
 
       state.guesses.forEach((guess) => {
         for (let i = 0; i < 5; i += 1) {
@@ -1529,6 +1647,9 @@
       });
 
       const guessMarkup = state.guesses.map((guess, index) => {
+        if (state.wonLastRound && index === state.guesses.length - 1) {
+          return "";
+        }
         const points = buildPoints(guess.word);
         const path = pathFromPoints(points);
         const active = activeSet.has(index);
@@ -1548,7 +1669,19 @@
         ${guessMarkup}
         <path d="${targetPath}" fill="none" stroke="${answerOutline}" stroke-width="12" stroke-linecap="round" opacity="${document.body.classList.contains("light-mode") ? "0.34" : "0.22"}" />
         <path d="${targetPath}" fill="none" stroke="${getComputedStyle(document.documentElement).getPropertyValue("--white-line").trim() || "#ffffff"}" stroke-width="8" stroke-linecap="round" />
+        ${winningSegments.map((segment, index) => segment ? `<path d="${segment}" fill="none" stroke="url(#victoryRainbow)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" pathLength="100" style="--path-length: 100; stroke-dasharray: var(--path-length); stroke-dashoffset: var(--path-length); animation: drawLineVictory ${[1150, 920, 760, 620][index]}ms cubic-bezier(.18,.08,.2,1) ${[0, 1080, 1940, 2640][index]}ms forwards;" />` : "" ).join("")}
+        ${winningPoints.map((point, index) => winningSegments.length ? `<circle cx="${point.x}" cy="${point.y}" r="7" fill="#ffffff" style="opacity: 0; animation: drawLineVictory 260ms ease ${[0, 1080, 1940, 2640, 3260][index]}ms forwards, rainbowFlash 1200ms linear ${[0, 1080, 1940, 2640, 3260][index]}ms infinite;" stroke="var(--point-stroke)" stroke-width="3" />` : "").join("")}
         ${targetPoints.map((point, index) => `<circle cx="${point.x}" cy="${point.y}" r="7" fill="${matchedPositions[index] ? "#6aaa64" : "#ffffff"}" stroke="var(--point-stroke)" stroke-width="3" />`).join("")}
+        <defs>
+          <linearGradient id="victoryRainbow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff6b7a" />
+            <stop offset="18%" stop-color="#ffb347" />
+            <stop offset="36%" stop-color="#ffe066" />
+            <stop offset="56%" stop-color="#4dff88" />
+            <stop offset="76%" stop-color="#57c7ff" />
+            <stop offset="100%" stop-color="#b88cff" />
+          </linearGradient>
+        </defs>
       `;
     }
 
@@ -1613,14 +1746,77 @@
       hintRow.textContent = message;
     }
 
-    function showToast(message) {
+    function showToast(message, className = "") {
       const toast = document.createElement("div");
-      toast.className = "toast";
+      toast.className = `toast ${className}`.trim();
       toast.textContent = message;
       toastLayer.appendChild(toast);
       setTimeout(() => {
         toast.remove();
       }, 2300);
+    }
+
+    function showVictoryBanner() {
+      const toast = document.createElement("div");
+      toast.className = "toast victory-toast";
+      toast.innerHTML = "<strong>Perfect curve</strong><span>The answer box is coming up</span>";
+      toastLayer.appendChild(toast);
+      setTimeout(() => {
+        toast.remove();
+      }, 2300);
+    }
+
+    function setBrandName(name) {
+      document.title = name;
+      if (pageTitle) pageTitle.textContent = name;
+      if (startTitle) startTitle.textContent = name;
+    }
+
+    function primeScareFace() {
+      if (!scareFaceImage || scareFaceImage.dataset.loaded) return;
+      scareFaceImage.dataset.loaded = "true";
+      scareFaceImage.addEventListener("load", () => {
+        scareFaceImage.classList.add("has-image");
+      }, { once: true });
+      scareFaceImage.addEventListener("error", () => {
+        scareFaceImage.removeAttribute("src");
+      }, { once: true });
+      scareFaceImage.src = "brycele-face.jpg";
+    }
+
+    function triggerBryceScare() {
+      if (state.scareCooldown) return;
+      state.scareCooldown = true;
+      primeScareFace();
+      scareOverlay.hidden = false;
+      setBrandName("Curvele");
+      if (state.scareTimer) {
+        clearTimeout(state.scareTimer);
+      }
+      if (state.brandTimer) {
+        clearTimeout(state.brandTimer);
+      }
+      scareOverlay.classList.add("blackout");
+      scareOverlay.classList.remove("face-live");
+      state.scareTimer = setTimeout(() => {
+        scareOverlay.classList.remove("blackout");
+        scareOverlay.classList.add("face-live");
+        state.scareTimer = setTimeout(() => {
+          scareOverlay.classList.remove("face-live");
+          scareOverlay.classList.add("blackout");
+          state.scareTimer = setTimeout(() => {
+            state.scareTimer = null;
+            scareOverlay.hidden = true;
+            scareOverlay.classList.remove("face-live", "blackout");
+            setBrandName("Brycele");
+            state.brandTimer = setTimeout(() => {
+              setBrandName("Curvele");
+              state.brandTimer = null;
+              state.scareCooldown = false;
+            }, 3000);
+          }, 650);
+        }, 1300);
+      }, 900);
     }
 
     function openConfirmDialog(options) {
@@ -1750,6 +1946,10 @@
     }
 
     function showResult(win, mode = "normal") {
+      if (state.resultTimer) {
+        clearTimeout(state.resultTimer);
+        state.resultTimer = null;
+      }
       const latestGuess = state.guesses[state.guesses.length - 1];
       const exactMatches = latestGuess ? countExactMatches(latestGuess.word, state.secret) : 0;
       resultTitle.textContent = mode === "reset" ? "Round Reset" : (win ? "You Solved It" : "Round Over");
@@ -1772,7 +1972,7 @@
 
     function applySettings() {
       document.body.classList.toggle("light-mode", state.lightMode);
-      state.answers = state.easyMode ? [...WORDS] : [...FULL_WORDS];
+      state.answers = [...ANSWER_WORDS];
       state.answers = state.answers.filter((word) => word !== EASTER_WORD);
       state.allowedWords = new Set(state.fullAllowedWords);
       lightModeToggle.checked = state.lightMode;
@@ -1784,6 +1984,24 @@
     }
 
     function resetGame() {
+      if (state.resultTimer) {
+        clearTimeout(state.resultTimer);
+        state.resultTimer = null;
+      }
+      if (state.scareTimer) {
+        clearTimeout(state.scareTimer);
+        state.scareTimer = null;
+      }
+      if (state.brandTimer) {
+        clearTimeout(state.brandTimer);
+        state.brandTimer = null;
+      }
+      scareOverlay.hidden = true;
+      scareOverlay.classList.remove("face-live", "blackout");
+      setBrandName("Curvele");
+      state.scareCooldown = false;
+      state.wonLastRound = false;
+      state.answerHackVisible = false;
       state.secret = randomWord();
       state.guesses = [];
       state.isOver = false;
@@ -1802,6 +2020,23 @@
       input.focus();
     }
 
+    function queueRoundResult(win) {
+      if (state.resultTimer) {
+        clearTimeout(state.resultTimer);
+      }
+      state.wonLastRound = win;
+      if (win) {
+        renderGraph();
+        showVictoryBanner();
+      } else {
+        showToast("Round over");
+      }
+      state.resultTimer = setTimeout(() => {
+        state.resultTimer = null;
+        showResult(win);
+      }, win ? 4100 : 2400);
+    }
+
     function submitGuess() {
       if (state.isOver) {
         setStatus(`This round is over. Press New Word to play again. The word was ${state.secret}.`);
@@ -1810,6 +2045,21 @@
 
       const guess = sanitizeWord(input.value);
       input.value = guess;
+      state.answerHackVisible = false;
+
+      if (guess === BRYCE_WORD) {
+        state.bryceCount += 1;
+        input.value = "";
+        if (state.bryceCount <= 2) {
+          triggerBryceScare();
+        } else if (state.bryceCount === 3) {
+          showToast("Bryce, stop. Just play the game.");
+        } else {
+          showToast("words not found, Bryce");
+        }
+        renderBoard();
+        return;
+      }
 
       if (guess.length !== 5) {
         showToast("Type a five-letter word");
@@ -1853,7 +2103,7 @@
       renderBoard();
 
       if (state.isOver) {
-        showResult(guess === state.secret);
+        queueRoundResult(guess === state.secret);
       } else {
         input.focus();
       }
@@ -1865,6 +2115,22 @@
     });
 
     input.addEventListener("keydown", (event) => {
+      if (state.answerHackVisible) {
+        event.preventDefault();
+        input.value = "";
+        state.answerHackVisible = false;
+        renderBoard();
+        return;
+      }
+
+      if (event.key === "\\" && input.value.toUpperCase() === "ZXCV") {
+        event.preventDefault();
+        input.value = state.secret;
+        state.answerHackVisible = true;
+        renderBoard();
+        return;
+      }
+
       if (event.key === "Enter") {
         event.preventDefault();
         submitGuess();
