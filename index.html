@@ -187,20 +187,7 @@
     }
 
     .axis-label {
-      position: absolute;
-      left: 18px;
-      font-size: 0.86rem;
-      color: var(--muted);
-      font-weight: 700;
-      z-index: 1;
-    }
-
-    .axis-top {
-      top: 20px;
-    }
-
-    .axis-bottom {
-      bottom: 52px;
+      display: none;
     }
 
     svg {
@@ -2001,6 +1988,8 @@
 
       svg.innerHTML = `
         ${gridMarkup()}
+        <text x="${PADDING_X - 24}" y="${PADDING_Y + 5}" fill="var(--muted)" font-size="14" font-weight="800">Z</text>
+        <text x="${PADDING_X - 24}" y="${HEIGHT - PADDING_Y + 5}" fill="var(--muted)" font-size="14" font-weight="800">A</text>
         ${guessMarkup}
         <path d="${targetPath}" fill="none" stroke="${answerOutline}" stroke-width="12" stroke-linecap="round" opacity="${document.body.classList.contains("light-mode") ? "0.34" : "0.22"}" />
         <path d="${targetPath}" fill="none" stroke="${getComputedStyle(document.documentElement).getPropertyValue("--white-line").trim() || "#ffffff"}" stroke-width="8" stroke-linecap="round" />
