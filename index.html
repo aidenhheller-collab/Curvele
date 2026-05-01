@@ -228,6 +228,10 @@
       font-size: 0.93rem;
     }
 
+    .board-copy strong {
+      color: var(--ink);
+    }
+
     .hidden-input {
       position: absolute;
       opacity: 0;
@@ -526,20 +530,11 @@
       width: 100%;
       height: 100%;
       object-fit: fill;
-      display: none;
-      filter: contrast(1.08) brightness(0.82);
+      display: block;
     }
 
     .scare-overlay.face-live .scare-face {
       opacity: 1;
-    }
-
-    .scare-overlay.face-live .scare-face-image.has-image {
-      display: block;
-    }
-
-    .scare-overlay.blackout .scare-face {
-      opacity: 0;
     }
 
     #resultWord,
@@ -733,6 +728,86 @@
 
     .overlay[hidden] {
       display: none;
+    }
+
+    body.tutorial-step-1 .board-shell {
+      position: relative;
+      z-index: auto !important;
+    }
+
+    body.tutorial-step-0 .graph-card,
+    body.tutorial-step-1 .guess-line:first-child,
+    body.tutorial-step-2 .graph-card,
+    body.tutorial-step-3 .graph-card {
+      position: relative;
+      z-index: auto !important;
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.96),
+        0 0 28px rgba(255, 255, 255, 0.24);
+    }
+
+    body.tutorial-step-0 .graph-card,
+    body.tutorial-step-2 .graph-card,
+    body.tutorial-step-3 .graph-card {
+      border-radius: 24px;
+    }
+
+    body.tutorial-step-1 .guess-line:first-child {
+      border-radius: 18px;
+    }
+
+    #tutorialOverlay {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      align-items: start;
+      justify-content: center;
+      z-index: 20000 !important;
+      pointer-events: auto;
+    }
+
+    #tutorialOverlay::before {
+      content: none;
+    }
+
+    #tutorialOverlay .modal {
+      width: min(420px, calc(100vw - 20px));
+      padding: 20px 18px;
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20001 !important;
+      pointer-events: auto;
+      border: 1px solid rgba(142, 199, 255, 0.34);
+      background:
+        radial-gradient(circle at top, rgba(142, 199, 255, 0.16), transparent 32%),
+        linear-gradient(180deg, rgba(21, 31, 53, 0.98), rgba(14, 20, 35, 0.98));
+      box-shadow: 0 30px 70px rgba(0,0,0,0.56);
+    }
+
+    body.tutorial-active .play-area {
+      padding-top: 96px;
+    }
+
+    #tutorialOverlay h2 {
+      font-size: 1.3rem;
+      color: var(--ink);
+    }
+
+    #tutorialOverlay p {
+      color: #dce7ff;
+      line-height: 1.55;
+    }
+
+    #tutorialOverlay .modal-actions {
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .tutorial-count {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
     .modal {
@@ -960,6 +1035,121 @@
     .confirm-actions {
       justify-content: center;
       margin-top: 18px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(143, 162, 198, 0.14);
+      border-radius: 18px;
+      padding: 14px 16px;
+    }
+
+    .stat-card strong,
+    .stat-card span {
+      display: block;
+    }
+
+    .stat-card strong {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.76rem;
+      margin-bottom: 8px;
+    }
+
+    .stat-card span {
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .dist-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .dist-row {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) 36px;
+      gap: 8px;
+      align-items: center;
+      font-weight: 700;
+    }
+
+    .dist-bar {
+      position: relative;
+      min-height: 32px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(143, 162, 198, 0.14);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .dist-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #89cbff, #d7b3ff);
+    }
+
+    .custom-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .custom-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .custom-field strong {
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .custom-input {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(143, 162, 198, 0.2);
+      background: rgba(255,255,255,0.06);
+      color: var(--ink);
+      padding: 14px 16px;
+      outline: none;
+    }
+
+    #modesOverlay .modal {
+      width: min(430px, 100%);
+      padding: 18px 16px;
+    }
+
+    .custom-note {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .mode-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 162, 198, 0.16);
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
     }
 
     @keyframes resultIn {
@@ -1190,6 +1380,10 @@
         max-height: calc(100dvh - 22px);
       }
 
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
       .example-row {
         gap: 6px;
       }
@@ -1280,10 +1474,13 @@
       <header class="topbar">
         <button id="helpButton" class="icon-btn" type="button">Rules</button>
         <div class="title-wrap">
-          <span class="eyebrow">Graph Guessing Game</span>
+          <span id="modeEyebrow" class="eyebrow">Daily Puzzle</span>
           <h1 class="title">Curvele</h1>
         </div>
         <div class="top-actions">
+          <button id="modesButton" class="icon-btn" type="button">Modes</button>
+          <button id="statsButton" class="icon-btn" type="button">Stats</button>
+          <button id="summaryButton" class="icon-btn" type="button" hidden>Round Summary</button>
           <button id="settingsButton" class="icon-btn" type="button">Settings</button>
           <button id="newGame" class="icon-btn" type="button"><span>New Word</span></button>
         </div>
@@ -1299,7 +1496,7 @@
         <div class="board-shell panel-card" id="boardShell" tabindex="0">
           <div class="board-header">
             <h2 class="board-title">Words Guessed</h2>
-            <p class="board-copy">Tap the active row to type. Press Enter to submit your word.</p>
+            <p id="boardModeCopy" class="board-copy">Tap the active row to type. Press Enter to submit your word.</p>
           </div>
           <input id="wordInput" class="hidden-input" type="text" maxlength="5" autocomplete="off" spellcheck="false">
           <div class="hint-row" id="hintRow">Tap the current row to type a real five-letter word, then compare your colored line to the white answer line.</div>
@@ -1322,8 +1519,24 @@
         then switch into unlimited mode whenever you want extra rounds.
       </p>
       <div class="start-actions">
-        <button id="startPlay" class="action-btn" type="button">Play Daily</button>
+        <button id="startPlay" class="action-btn" type="button">Play</button>
         <button id="startTutorial" class="action-btn" type="button">Tutorial</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modesOverlay" class="overlay" hidden>
+    <div class="modal">
+      <h2>Pick A Mode</h2>
+      <p>Jump between the daily board, unlimited practice, your tutorial, or a custom challenge.</p>
+      <div class="start-actions">
+        <button id="modeDaily" class="action-btn" type="button">Daily</button>
+        <button id="modeUnlimited" class="action-btn" type="button">Unlimited</button>
+        <button id="modeCustom" class="action-btn" type="button">Custom</button>
+        <button id="modeTutorial" class="action-btn" type="button">Tutorial</button>
+      </div>
+      <div class="modal-actions">
+        <button id="closeModes" class="action-btn" type="button">Done</button>
       </div>
     </div>
   </div>
@@ -1331,18 +1544,18 @@
   <div id="rulesOverlay" class="overlay" hidden>
     <div class="modal">
       <h2>How To Play</h2>
-      <p>You have six tries to guess the hidden five-letter word by reading the shape of the graph.</p>
+      <p>You get six tries to guess the hidden five-letter word by reading the graph.</p>
       <ul>
-        <li>The white line is the answer curve you are trying to decode.</li>
-        <li>Each of the five points matches one letter position from left to right.</li>
+        <li>The white curve is the answer line you are trying to match.</li>
+        <li>Each of the five dots stands for one letter, going left to right.</li>
         <li>Low on the graph means the letter is closer to A. High on the graph means the letter is closer to Z.</li>
-        <li>When you guess a word, the guess appears below the graph and its line is added on top of the chart for comparison.</li>
-        <li>Only exact position matches turn green in the guess row and on the answer graph. There is no yellow hint in this game.</li>
+        <li>When you guess a word, that word appears below the graph and its colored line is drawn on the chart.</li>
+        <li>If a letter is exactly right in the right spot, that box turns green. There is no yellow hint in Curvele.</li>
       </ul>
 
       <div class="example-block">
         <h3>Read The White Curve First</h3>
-        <p>This example answer is <strong style="color: var(--ink);">READY</strong>. Each point is labeled so you can see which letter belongs to each answer point.</p>
+        <p>This example answer is <strong style="color: var(--ink);">READY</strong>. Each point is labeled so you can see which letter matches each answer dot.</p>
         <div class="example-graph">
           <svg viewBox="0 0 620 220" aria-label="Example answer graph">
             <line x1="36" y1="24" x2="36" y2="196" stroke="rgba(255,255,255,0.18)" />
@@ -1364,12 +1577,12 @@
             <text x="580" y="18" text-anchor="middle" fill="#8ec7ff" font-size="13" font-weight="700">Y</text>
           </svg>
         </div>
-        <p>Now imagine your guess line sitting on top of that answer. You are trying to push your guessed points into the same positions as the answer points.</p>
+        <p>Your goal is to make your guess line land on these same points.</p>
       </div>
 
       <div class="example-block">
         <h3>Example With One Guess</h3>
-        <p>Here the answer is still <strong style="color: var(--ink);">READY</strong>, and the guess is <strong style="color: var(--ink);">DRAFT</strong>. Only the middle letter <strong style="color: var(--ink);">A</strong> is in the exact same position, so only that spot turns green.</p>
+        <p>Here the answer is still <strong style="color: var(--ink);">READY</strong>, and the guess is <strong style="color: var(--ink);">DRAFT</strong>. Only the middle letter <strong style="color: var(--ink);">A</strong> is exactly right, so only that spot turns green.</p>
         <div class="example-graph">
           <svg viewBox="0 0 620 220" aria-label="Example answer graph with one guess">
             <line x1="36" y1="24" x2="36" y2="196" stroke="rgba(255,255,255,0.18)" />
@@ -1393,7 +1606,7 @@
 
       <div class="example-block">
         <h3>How To Use The Board</h3>
-        <p>Your guess history is kept below the graph so you can remember what you tried. The toggle on the left of each row lets you show or hide that guess line on the chart.</p>
+        <p>Your guesses stay below the graph so you can remember what you tried. The button on the left of each row lets you show or hide that guess line on the chart.</p>
         <div class="example-row">
           <div class="example-tile" style="background: var(--red); border-color: var(--red); color: #521720;">R</div>
           <div class="example-tile" style="background: var(--red); border-color: var(--red); color: #521720;">E</div>
@@ -1404,11 +1617,11 @@
         <div class="detail-grid">
           <div class="detail-card">
             <strong>Step 1</strong>
-            Read the white answer graph first and notice where each point sits from low to high.
+            Look at the white answer line first and notice where each dot sits from low to high.
           </div>
           <div class="detail-card">
             <strong>Step 2</strong>
-            Tap the current row in the board and type a five-letter word. Press Enter to submit it.
+            Tap the current row and type a five-letter word. Press Enter to submit it.
           </div>
           <div class="detail-card">
             <strong>Step 3</strong>
@@ -1416,24 +1629,13 @@
           </div>
           <div class="detail-card">
             <strong>Step 4</strong>
-            Exact matches turn green. If a row is not green, adjust the heights and letters in your next guess.
+            Green means exact match. If a box is not green, change that part of the shape in your next guess.
           </div>
         </div>
       </div>
 
-      <div class="signature-wrap">
-        <label class="signature-label" for="playerNameInput">Test Words Out To See How They Form On A Graph</label>
-        <div class="signature-row">
-          <input id="playerNameInput" class="signature-input" type="text" maxlength="24" placeholder="Type any word or phrase">
-          <button id="clearSignature" class="action-btn" type="button">Reset</button>
-        </div>
-        <div class="signature-preview">
-          <svg id="signatureGraph" viewBox="0 0 620 120" aria-label="Signature graph preview"></svg>
-        </div>
-        <p id="signatureNote" class="signature-note">Type anything here and it will turn into a little preview graph below.</p>
-      </div>
-
       <div class="modal-actions">
+        <button id="reopenTutorial" class="action-btn" type="button">Tutorial</button>
         <button id="closeRules" class="action-btn" type="button">Start Game</button>
       </div>
     </div>
@@ -1477,7 +1679,14 @@
           <span id="resultNextDaily">Not active</span>
         </div>
       </div>
+      <div class="example-block">
+        <h3>Share Or Review</h3>
+        <p id="resultShareCopy">Share a spoiler-free summary, or jump back to the board if you want to study the curve again.</p>
+      </div>
       <div class="modal-actions">
+        <button id="shareResult" class="action-btn" type="button">Share Result</button>
+        <button id="openMainMenu" class="action-btn" type="button" hidden>Main Menu</button>
+        <button id="backToBoard" class="action-btn" type="button">Back To Board</button>
         <button id="playAgain" class="action-btn" type="button">Play Again</button>
       </div>
     </div>
@@ -1537,9 +1746,58 @@
           </div>
           <input id="reducedMotionToggle" class="toggle" type="checkbox">
         </label>
+        <label class="setting-item">
+          <div>
+            <strong>Hard Mode</strong>
+            <span>Any exact green letter you discover must stay locked into that same position on later guesses.</span>
+          </div>
+          <input id="hardModeToggle" class="toggle" type="checkbox">
+        </label>
       </div>
       <div class="modal-actions">
+        <button id="openCustomFromSettings" class="action-btn" type="button">Custom Challenge</button>
         <button id="closeSettings" class="action-btn" type="button">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="statsOverlay" class="overlay" hidden>
+    <div class="modal">
+      <h2>Your Stats</h2>
+      <p>Track your streaks, wins, and how your solves are spread across the six guesses.</p>
+      <div class="stats-grid">
+        <div class="stat-card"><strong>Played</strong><span id="statsPlayed">0</span></div>
+        <div class="stat-card"><strong>Overall Wins</strong><span id="statsOverallWins">0</span></div>
+        <div class="stat-card"><strong>Win %</strong><span id="statsWinRate">0%</span></div>
+        <div class="stat-card"><strong>Current Streak</strong><span id="statsStreak">0</span></div>
+        <div class="stat-card"><strong>Best Streak</strong><span id="statsBestStreak">0</span></div>
+        <div class="stat-card"><strong>Daily Win Streak</strong><span id="statsDailyStreak">0</span></div>
+      </div>
+      <div class="example-block">
+        <h3>Guess Distribution</h3>
+        <div id="statsDistribution" class="dist-list"></div>
+      </div>
+      <div class="modal-actions">
+        <button id="closeStats" class="action-btn" type="button">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="customOverlay" class="overlay" hidden>
+    <div class="modal">
+      <h2>Custom Challenge</h2>
+      <p>Make your own Curvele puzzle, including shorter or longer words, then copy a link and send it to someone else.</p>
+      <div class="custom-grid">
+        <label class="custom-field">
+          <strong>Answer Word</strong>
+          <input id="customWordInput" class="custom-input" type="text" maxlength="12" placeholder="Type 3 to 12 letters">
+        </label>
+        <p id="customWordNote" class="custom-note">Custom games can use any 3 to 12 letter alphabetic answer. Shared custom puzzles keep the same answer for everyone with that link.</p>
+      </div>
+      <div class="modal-actions">
+        <button id="copyCustomLink" class="action-btn" type="button">Copy Link</button>
+        <button id="playCustomNow" class="action-btn" type="button">Play Here</button>
+        <button id="closeCustom" class="action-btn" type="button">Done</button>
       </div>
     </div>
   </div>
@@ -1551,6 +1809,18 @@
       <div class="modal-actions confirm-actions">
         <button id="confirmCancel" class="action-btn" type="button">Keep Playing</button>
         <button id="confirmContinue" class="action-btn" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tutorialOverlay" class="overlay" hidden>
+    <div class="modal" style="width:min(460px,100%);">
+      <h2 id="tutorialStepTitle">Tutorial</h2>
+      <p id="tutorialStepCopy">This is the answer line.</p>
+      <p id="tutorialStepCount" class="tutorial-count">1 of 4 tutorial steps</p>
+      <div class="modal-actions">
+        <button id="tutorialSkip" class="action-btn" type="button">Skip</button>
+        <button id="tutorialNext" class="action-btn" type="button">Next</button>
       </div>
     </div>
   </div>
@@ -1574,18 +1844,26 @@
     const input = document.getElementById("wordInput");
     const pageTitle = document.querySelector(".title");
     const startTitle = document.querySelector(".start-title");
+    const modeEyebrow = document.getElementById("modeEyebrow");
+    const boardModeCopy = document.getElementById("boardModeCopy");
     const newGameButton = document.getElementById("newGame");
+    const modesButton = document.getElementById("modesButton");
+    const statsButton = document.getElementById("statsButton");
+    const summaryButton = document.getElementById("summaryButton");
     const settingsButton = document.getElementById("settingsButton");
     const helpButton = document.getElementById("helpButton");
     const startOverlay = document.getElementById("startOverlay");
     const startPlayButton = document.getElementById("startPlay");
     const startTutorialButton = document.getElementById("startTutorial");
+    const modesOverlay = document.getElementById("modesOverlay");
+    const modeDailyButton = document.getElementById("modeDaily");
+    const modeUnlimitedButton = document.getElementById("modeUnlimited");
+    const modeCustomButton = document.getElementById("modeCustom");
+    const modeTutorialButton = document.getElementById("modeTutorial");
+    const closeModesButton = document.getElementById("closeModes");
     const rulesOverlay = document.getElementById("rulesOverlay");
+    const reopenTutorialButton = document.getElementById("reopenTutorial");
     const closeRulesButton = document.getElementById("closeRules");
-    const playerNameInput = document.getElementById("playerNameInput");
-    const clearSignatureButton = document.getElementById("clearSignature");
-    const signatureGraph = document.getElementById("signatureGraph");
-    const signatureNote = document.getElementById("signatureNote");
     const resultOverlay = document.getElementById("resultOverlay");
     const resultTitle = document.getElementById("resultTitle");
     const resultText = document.getElementById("resultText");
@@ -1600,6 +1878,10 @@
     const resultMatches = document.getElementById("resultMatches");
     const resultLastGuess = document.getElementById("resultLastGuess");
     const resultNextDaily = document.getElementById("resultNextDaily");
+    const resultShareCopy = document.getElementById("resultShareCopy");
+    const shareResultButton = document.getElementById("shareResult");
+    const openMainMenuButton = document.getElementById("openMainMenu");
+    const backToBoardButton = document.getElementById("backToBoard");
     const playAgainButton = document.getElementById("playAgain");
     const settingsOverlay = document.getElementById("settingsOverlay");
     const closeSettingsButton = document.getElementById("closeSettings");
@@ -1610,11 +1892,34 @@
     const highContrastToggle = document.getElementById("highContrastToggle");
     const showAllLinesToggle = document.getElementById("showAllLinesToggle");
     const reducedMotionToggle = document.getElementById("reducedMotionToggle");
+    const hardModeToggle = document.getElementById("hardModeToggle");
+    const openCustomFromSettings = document.getElementById("openCustomFromSettings");
+    const statsOverlay = document.getElementById("statsOverlay");
+    const closeStatsButton = document.getElementById("closeStats");
+    const statsPlayed = document.getElementById("statsPlayed");
+    const statsOverallWins = document.getElementById("statsOverallWins");
+    const statsWinRate = document.getElementById("statsWinRate");
+    const statsStreak = document.getElementById("statsStreak");
+    const statsBestStreak = document.getElementById("statsBestStreak");
+    const statsDailyStreak = document.getElementById("statsDailyStreak");
+    const statsDistribution = document.getElementById("statsDistribution");
+    const customOverlay = document.getElementById("customOverlay");
+    const customWordInput = document.getElementById("customWordInput");
+    const customWordNote = document.getElementById("customWordNote");
+    const copyCustomLinkButton = document.getElementById("copyCustomLink");
+    const playCustomNowButton = document.getElementById("playCustomNow");
+    const closeCustomButton = document.getElementById("closeCustom");
     const confirmOverlay = document.getElementById("confirmOverlay");
     const confirmTitle = document.getElementById("confirmTitle");
     const confirmCopy = document.getElementById("confirmCopy");
     const confirmCancel = document.getElementById("confirmCancel");
     const confirmContinue = document.getElementById("confirmContinue");
+    const tutorialOverlay = document.getElementById("tutorialOverlay");
+    const tutorialStepTitle = document.getElementById("tutorialStepTitle");
+    const tutorialStepCopy = document.getElementById("tutorialStepCopy");
+    const tutorialStepCount = document.getElementById("tutorialStepCount");
+    const tutorialSkip = document.getElementById("tutorialSkip");
+    const tutorialNext = document.getElementById("tutorialNext");
     const scareOverlay = document.getElementById("scareOverlay");
     const scareFaceImage = document.getElementById("scareFaceImage");
 
@@ -1625,10 +1930,14 @@
     const GRID_LINES = 5;
     const MAX_GUESSES = 6;
     const MAX_ACTIVE_LINES = 3;
+    const DEFAULT_WORD_LENGTH = 5;
+    const MIN_CUSTOM_WORD_LENGTH = 3;
+    const MAX_CUSTOM_WORD_LENGTH = 12;
     const DAILY_TIME_ZONE = "America/New_York";
     const DAILY_POOL_SIZE = 500;
     const DAILY_EPOCH = { year: 2026, month: 4, day: 28 };
     const DAILY_STORAGE_PREFIX = "curvele-daily-";
+    const STATS_STORAGE_KEY = "curvele-stats-v1";
     const GUESS_COLORS = [
       { label: "Guess 1", color: "#89cbff", note: "blue" },
       { label: "Guess 2", color: "#ff8d98", note: "red" },
@@ -1653,11 +1962,26 @@
       "BAIZE", "LITHO", "VOXEL", "DIXIT", "UMIAK", "DJINN", "ZLOTY", "OXBOW", "IXNAY",
       "KVELL", "JIHAD", "DHOWS", "YENTA", "MIAOW", "PSEUD", "KAPPA", "MUCUS", "CURIA"
     ]);
-    const ANSWER_WORDS = Array.isArray(window.CURVELE_WORDS) && window.CURVELE_WORDS.length
-      ? window.CURVELE_WORDS
+    function normalizeWordSource(source) {
+      if (Array.isArray(source)) {
+        return source
+          .map((word) => String(word).trim().toUpperCase())
+          .filter((word) => /^[A-Z]{5}$/.test(word));
+      }
+      if (typeof source === "string") {
+        return source
+          .split(/\s+/)
+          .map((word) => word.trim().toUpperCase())
+          .filter((word) => /^[A-Z]{5}$/.test(word));
+      }
+      return [];
+    }
+
+    const ANSWER_WORDS = normalizeWordSource(window.CURVELE_WORDS).length
+      ? normalizeWordSource(window.CURVELE_WORDS)
       : WORDS;
-    const GUESS_WORDS = Array.isArray(window.CURVELE_GUESS_WORDS) && window.CURVELE_GUESS_WORDS.length
-      ? window.CURVELE_GUESS_WORDS
+    const GUESS_WORDS = normalizeWordSource(window.CURVELE_GUESS_WORDS).length
+      ? normalizeWordSource(window.CURVELE_GUESS_WORDS)
       : ANSWER_WORDS;
     const ALLOWED_WORDS = [...new Set(GUESS_WORDS.concat(ANSWER_WORDS, EASTER_WORD))];
     const KEYBOARD_LAYOUTS = {
@@ -1686,6 +2010,7 @@
       highContrastGuides: false,
       showAllGuessLines: false,
       reducedMotion: false,
+      hardMode: false,
       isTouchDevice: window.matchMedia("(pointer: coarse)").matches,
       playerName: "",
       previewNeedsResetWarning: true,
@@ -1701,6 +2026,11 @@
       bryceCount: 0,
       answerHackVisible: false,
       mode: "daily",
+      customWord: "",
+      wordLength: DEFAULT_WORD_LENGTH,
+      linkedCustomWord: "",
+      linkedCustomLocked: false,
+      tutorialStepIndex: -1,
       currentDailyKey: "",
       dailyCompletedKey: "",
       nextDailyTimer: null,
@@ -1708,13 +2038,47 @@
       newWordCooldownTimer: null,
       newWordCooldownActive: false,
       newWordCooldownRemaining: 0,
+      stats: loadStats(),
       allowedWords: new Set(ALLOWED_WORDS),
       fullAllowedWords: new Set(ALLOWED_WORDS),
       answers: [...ANSWER_WORDS]
     };
 
+    function loadStats() {
+      const fallback = {
+        played: 0,
+        wins: 0,
+        streak: 0,
+        maxStreak: 0,
+        dailyWins: 0,
+        dailyPlayed: 0,
+        distribution: Array(MAX_GUESSES).fill(0)
+      };
+      try {
+        const saved = JSON.parse(localStorage.getItem(STATS_STORAGE_KEY) || "null");
+        if (!saved || typeof saved !== "object") return fallback;
+        return {
+          ...fallback,
+          ...saved,
+          distribution: Array.isArray(saved.distribution)
+            ? Array.from({ length: MAX_GUESSES }, (_, index) => Number(saved.distribution[index] || 0))
+            : fallback.distribution
+        };
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveStats() {
+      try {
+        localStorage.setItem(STATS_STORAGE_KEY, JSON.stringify(state.stats));
+      } catch {
+        // Ignore storage problems.
+      }
+    }
+
     function sanitizeWord(raw) {
-      return raw.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 5);
+      return raw.toUpperCase().replace(/[^A-Z]/g, "").slice(0, state.wordLength || DEFAULT_WORD_LENGTH);
     }
 
     function seededRandom(seed) {
@@ -1848,7 +2212,8 @@
     }
 
     function buildPoints(word) {
-      const stepX = (WIDTH - PADDING_X * 2) / 4;
+      const length = Math.max(1, word.length);
+      const stepX = length === 1 ? 0 : (WIDTH - PADDING_X * 2) / (length - 1);
       return word.split("").map((char, index) => {
         const value = toValue(char);
         const normalized = value / 25;
@@ -1885,24 +2250,9 @@
       return `M ${current.x} ${current.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${next.x} ${next.y}`;
     }
 
-    function buildScaledSignaturePoints(name, width, height, paddingX, paddingY) {
-      const chars = name.toUpperCase().replace(/[^A-Z]/g, "");
-      const letters = chars.split("");
-      if (!letters.length) return [];
-      const stepX = letters.length === 1 ? 0 : (width - paddingX * 2) / (letters.length - 1);
-      return letters.map((char, index) => {
-        const value = Math.max(0, Math.min(25, toValue(char)));
-        const normalized = value / 25;
-        return {
-          x: paddingX + stepX * index,
-          y: height - paddingY - normalized * (height - paddingY * 2)
-        };
-      });
-    }
-
     function countExactMatches(word, secret) {
       let total = 0;
-      for (let i = 0; i < 5; i += 1) {
+      for (let i = 0; i < secret.length; i += 1) {
         if (word && word[i] === secret[i]) {
           total += 1;
         }
@@ -1948,16 +2298,16 @@
       const targetPoints = buildPoints(state.secret);
       const targetPath = pathFromPoints(targetPoints);
       const activeSet = new Set(state.showAllGuessLines ? state.guesses.map((_, index) => index) : state.activeGuessIndices);
-      const matchedPositions = Array(5).fill(false);
+      const matchedPositions = Array(state.wordLength).fill(false);
       const answerOutline = document.body.classList.contains("light-mode") ? "#1c2a44" : "rgba(0,0,0,0.32)";
       const winningGuess = state.wonLastRound ? state.guesses[state.guesses.length - 1] : null;
       const winningPoints = winningGuess ? buildPoints(winningGuess.word) : [];
       const winningSegments = winningPoints.length
-        ? [0, 1, 2, 3].map((index) => pathSegmentFromPoints(winningPoints, index))
+        ? Array.from({ length: Math.max(0, winningPoints.length - 1) }, (_, index) => pathSegmentFromPoints(winningPoints, index))
         : [];
 
       state.guesses.forEach((guess) => {
-        for (let i = 0; i < 5; i += 1) {
+        for (let i = 0; i < state.wordLength; i += 1) {
           if (guess.word[i] === state.secret[i]) {
             matchedPositions[i] = true;
           }
@@ -1982,14 +2332,22 @@
         `;
       }).join("");
 
-      const victoryDurations = state.reducedMotion ? [0, 0, 0, 0] : [1150, 920, 760, 620];
-      const victoryDelays = state.reducedMotion ? [0, 0, 0, 0] : [0, 1080, 1940, 2640];
-      const victoryPointDelays = state.reducedMotion ? [0, 0, 0, 0, 0] : [0, 1080, 1940, 2640, 3260];
+      const victoryDurations = winningSegments.map((_, index) => state.reducedMotion ? 0 : Math.max(520, 1320 - index * 180));
+      const victoryDelays = winningSegments.map((_, index) => {
+        if (state.reducedMotion) return 0;
+        return index === 0 ? 0 : victoryDurations.slice(0, index).reduce((sum, value) => sum + value - 90, 0);
+      });
+      const victoryPointDelays = winningPoints.map((_, index) => {
+        if (state.reducedMotion) return 0;
+        if (index === 0) return 0;
+        return victoryDelays[Math.max(0, index - 1)] + victoryDurations[Math.max(0, index - 1)] - 60;
+      });
 
+      const axisFont = state.isTouchDevice ? 18 : 14;
       svg.innerHTML = `
         ${gridMarkup()}
-        <text x="${PADDING_X - 24}" y="${PADDING_Y + 5}" fill="var(--muted)" font-size="14" font-weight="800">Z</text>
-        <text x="${PADDING_X - 24}" y="${HEIGHT - PADDING_Y + 5}" fill="var(--muted)" font-size="14" font-weight="800">A</text>
+        <text x="${PADDING_X - 28}" y="${PADDING_Y + 7}" fill="var(--muted)" font-size="${axisFont}" font-weight="900">Z</text>
+        <text x="${PADDING_X - 28}" y="${HEIGHT - PADDING_Y + 7}" fill="var(--muted)" font-size="${axisFont}" font-weight="900">A</text>
         ${guessMarkup}
         <path d="${targetPath}" fill="none" stroke="${answerOutline}" stroke-width="12" stroke-linecap="round" opacity="${document.body.classList.contains("light-mode") ? "0.34" : "0.22"}" />
         <path d="${targetPath}" fill="none" stroke="${getComputedStyle(document.documentElement).getPropertyValue("--white-line").trim() || "#ffffff"}" stroke-width="8" stroke-linecap="round" />
@@ -2019,7 +2377,7 @@
         const exists = i < state.guesses.length;
         const active = state.showAllGuessLines ? exists : state.activeGuessIndices.includes(i);
 
-        for (let j = 0; j < 5; j += 1) {
+        for (let j = 0; j < state.wordLength; j += 1) {
           const char = guess ? guess.word[j] : (preview[j] || "");
           const klass = [
             char ? "filled" : "",
@@ -2037,7 +2395,7 @@
               <strong>Guess ${i + 1}</strong>
               <span>${exists ? (state.showAllGuessLines ? "all shown" : (active ? "tap to hide" : "tap to show")) : (activeRow ? "tap row to type" : "waiting")}</span>
             </button>
-            <div class="guess-row" data-guess-row="${i}">${cells.join("")}</div>
+            <div class="guess-row" data-guess-row="${i}" style="grid-template-columns: repeat(${state.wordLength}, minmax(0, 1fr));">${cells.join("")}</div>
           </div>
         `);
       }
@@ -2073,6 +2431,20 @@
       hintRow.textContent = message;
     }
 
+    function renderSummaryButton() {
+      summaryButton.hidden = !(state.isOver && resultOverlay.hidden);
+    }
+
+    function renderTopControls() {
+      const lockUi = state.linkedCustomLocked && !state.isOver;
+      helpButton.hidden = lockUi;
+      modesButton.hidden = false;
+      statsButton.hidden = lockUi;
+      summaryButton.hidden = lockUi ? true : !(state.isOver && resultOverlay.hidden);
+      settingsButton.hidden = lockUi;
+      newGameButton.hidden = lockUi;
+    }
+
     function showToast(message, className = "") {
       const toast = document.createElement("div");
       toast.className = `toast ${className}`.trim();
@@ -2088,13 +2460,17 @@
         status.textContent = "You are doing the daily word.";
         return;
       }
+      if (state.mode === "custom") {
+        status.textContent = `Custom challenge is on. Solve the ${state.wordLength}-letter graph in six tries.`;
+        return;
+      }
       status.textContent = isTodayDailyCompleted()
         ? `Today's daily is complete. Next daily word in ${formatCountdown(getNextDailyCountdownMs())}.`
-        : "Unlimited mode is on. Tap New Word anytime for another round.";
+        : "Unlimited practice is on. Tap New Word anytime for another round.";
     }
 
     function renderNewWordButton() {
-      const label = state.mode === "daily" ? "Unlimited" : "New Word";
+      const label = state.mode === "daily" ? "Unlimited" : state.mode === "custom" ? "Random 5-Letter" : "New Word";
       if (state.newWordCooldownActive) {
         newGameButton.disabled = true;
         newGameButton.classList.add("cooldown");
@@ -2105,6 +2481,203 @@
       newGameButton.classList.remove("cooldown");
       newGameButton.style.removeProperty("--cooldown-scale");
       newGameButton.innerHTML = `<span>${label}</span>`;
+    }
+
+    function renderModeChrome() {
+      const modeLabel = state.mode === "daily"
+        ? "Daily Puzzle"
+        : state.mode === "custom"
+        ? `Custom ${state.wordLength}-Letter`
+        : "Unlimited Practice";
+      modeEyebrow.textContent = modeLabel;
+      boardModeCopy.innerHTML = state.mode === "daily"
+        ? "<strong>Daily puzzle:</strong> everyone gets the same answer today."
+        : state.mode === "custom"
+        ? `<strong>Custom challenge:</strong> this board is using a shared ${state.wordLength}-letter answer.`
+        : "<strong>Unlimited practice:</strong> tap New Word anytime for a fresh random round.";
+      renderTopControls();
+    }
+
+    function getLockedExactPattern() {
+      const locked = Array(state.wordLength).fill("");
+      state.guesses.forEach((guess) => {
+        for (let index = 0; index < state.wordLength; index += 1) {
+          if (guess.word[index] === state.secret[index]) {
+            locked[index] = state.secret[index];
+          }
+        }
+      });
+      return locked;
+    }
+
+    function buildInsight(guess) {
+      const exact = countExactMatches(guess, state.secret);
+      return exact
+        ? `${exact} exact point${exact === 1 ? "" : "s"} matched. Keep nudging the other points into place.`
+        : "No exact points matched yet. Try shifting the graph shape on your next guess.";
+    }
+
+    const TUTORIAL_STEPS = [
+      {
+        title: "Answer Line",
+        copy: "This white curve is the answer line. Your job is to figure out which word makes this exact shape."
+      },
+      {
+        title: "Words Guessed",
+        copy: "This is the words guessed area. Every word you try shows up here after you submit it. If a box turns green, that letter is right in the exact spot."
+      },
+      {
+        title: "Each Dot Is A Letter",
+        copy: "Each dot on the graph stands for one letter. From left to right, that means letter 1, letter 2, letter 3, letter 4, and letter 5."
+      },
+      {
+        title: "Keep Comparing",
+        copy: "After each guess, compare your colored line to the white answer line. Keep moving the points closer until the whole word is correct."
+      }
+    ];
+
+    function showTutorialStep(index) {
+      state.tutorialStepIndex = index;
+      const step = TUTORIAL_STEPS[index];
+      document.body.classList.add("tutorial-active");
+      document.body.classList.remove("tutorial-step-0", "tutorial-step-1", "tutorial-step-2", "tutorial-step-3");
+      document.body.classList.add(`tutorial-step-${index}`);
+      tutorialStepTitle.textContent = step.title;
+      tutorialStepCopy.textContent = step.copy;
+      tutorialStepCount.textContent = `${index + 1} of ${TUTORIAL_STEPS.length} tutorial steps`;
+      tutorialNext.textContent = index === TUTORIAL_STEPS.length - 1 ? "Open Rules" : "Next";
+      tutorialSkip.hidden = index === TUTORIAL_STEPS.length - 1;
+      tutorialSkip.textContent = "Skip";
+      tutorialOverlay.hidden = false;
+    }
+
+    function startBoardTutorial() {
+      startOverlay.hidden = true;
+      rulesOverlay.hidden = true;
+      resetGame("unlimited");
+      showTutorialStep(0);
+    }
+
+    function stopTutorialHighlight() {
+      document.body.classList.remove("tutorial-active", "tutorial-step-0", "tutorial-step-1", "tutorial-step-2", "tutorial-step-3");
+      state.tutorialStepIndex = -1;
+    }
+
+    function renderStatsOverlay() {
+      const stats = state.stats;
+      const played = stats.played || 0;
+      const wins = stats.wins || 0;
+      const winRate = played ? Math.round((wins / played) * 100) : 0;
+      const maxDist = Math.max(1, ...stats.distribution);
+
+      statsPlayed.textContent = String(played);
+      statsOverallWins.textContent = String(wins);
+      statsWinRate.textContent = `${winRate}%`;
+      statsStreak.textContent = String(stats.streak || 0);
+      statsBestStreak.textContent = String(stats.maxStreak || 0);
+      statsDailyStreak.textContent = String(getDailyWinStreak());
+      statsDistribution.innerHTML = stats.distribution.map((count, index) => `
+        <div class="dist-row">
+          <span>${index + 1}</span>
+          <div class="dist-bar"><div class="dist-fill" style="width: ${(count / maxDist) * 100}%"></div></div>
+          <span>${count}</span>
+        </div>
+      `).join("");
+    }
+
+    function recordRoundStats(win) {
+      const stats = state.stats;
+      stats.played += 1;
+      if (state.mode === "daily") {
+        stats.dailyPlayed += 1;
+      }
+      if (win) {
+        stats.wins += 1;
+        stats.streak += 1;
+        stats.maxStreak = Math.max(stats.maxStreak, stats.streak);
+        if (state.mode === "daily") {
+          stats.dailyWins += 1;
+        }
+        const distIndex = Math.max(0, Math.min(MAX_GUESSES - 1, state.guesses.length - 1));
+        stats.distribution[distIndex] += 1;
+      } else {
+        stats.streak = 0;
+      }
+      saveStats();
+      renderStatsOverlay();
+    }
+
+    function getDailyWinStreak() {
+      let streak = 0;
+      const probe = new Date();
+      for (let i = 0; i < 365; i += 1) {
+        const completion = readDailyCompletion(probe);
+        if (!completion || !completion.win) {
+          break;
+        }
+        streak += 1;
+        probe.setDate(probe.getDate() - 1);
+      }
+      return streak;
+    }
+
+    function buildShareText() {
+      const modeLabel = state.mode === "daily" ? `Daily ${getCurrentDailyKey()}` : state.mode === "custom" ? `Custom ${state.wordLength}` : "Unlimited";
+      const resultLabel = state.wonLastRound ? `${state.guesses.length}/${MAX_GUESSES}` : "X/6";
+      const rows = state.guesses.map((guess) => {
+        return guess.word.split("").map((char, index) => char === state.secret[index] ? "🟩" : "⬛").join("");
+      }).join("\n");
+      return `Curvele ${modeLabel} ${resultLabel}\n${rows}\n${window.location.href}`;
+    }
+
+    function encodeCustomWord(word) {
+      return word
+        .split("")
+        .map((char, index) => ((toValue(char) + 7 + index) % 26).toString(36))
+        .join("");
+    }
+
+    function decodeCustomToken(token) {
+      if (!token || token.length < MIN_CUSTOM_WORD_LENGTH) return "";
+      const letters = token.split("").map((char, index) => {
+        const value = parseInt(char, 36);
+        if (Number.isNaN(value) || value < 0 || value > 25) return "";
+        return String.fromCharCode(65 + ((value - 7 - index + 260) % 26));
+      });
+      const word = letters.join("");
+      if (!new RegExp(`^[A-Z]{${MIN_CUSTOM_WORD_LENGTH},${MAX_CUSTOM_WORD_LENGTH}}$`).test(word)) {
+        return "";
+      }
+      return word;
+    }
+
+    function customHashForWord(word) {
+      return `#p=${encodeURIComponent(encodeCustomWord(word))}`;
+    }
+
+    function getBaseShareUrl() {
+      return window.location.href.split("#")[0];
+    }
+
+    function readCustomWordFromUrl() {
+      const match = window.location.hash.match(/p=([0-9a-z]+)/i);
+      if (!match) return "";
+      const decoded = decodeCustomToken(decodeURIComponent(match[1] || ""));
+      if (decoded.length < MIN_CUSTOM_WORD_LENGTH || decoded.length > MAX_CUSTOM_WORD_LENGTH) {
+        return "";
+      }
+      return decoded;
+    }
+
+    function buildShareTextSafe() {
+      const modeLabel = state.mode === "daily" ? `Daily ${getCurrentDailyKey()}` : state.mode === "custom" ? `Custom ${state.wordLength}` : "Unlimited";
+      const resultLabel = state.wonLastRound ? `${state.guesses.length}/${MAX_GUESSES}` : "X/6";
+      const rows = state.guesses.map((guess) => {
+        return guess.word.split("").map((char, index) => char === state.secret[index] ? "\u{1F7E9}" : "\u2B1C").join("");
+      }).join("\n");
+      const legend = "Green square = exact point match";
+      const tail = state.mode === "custom" ? `\n${getBaseShareUrl()}${customHashForWord(state.secret)}` : "";
+      return `Curvele ${modeLabel} ${resultLabel}\n${legend}\n${rows}${tail}`;
     }
 
     function stopDailyCountdown() {
@@ -2167,7 +2740,7 @@
     function showVictoryBanner() {
       const toast = document.createElement("div");
       toast.className = "toast victory-toast";
-      toast.innerHTML = "<strong>Perfect curve</strong><span>The answer box is coming up</span>";
+      toast.innerHTML = "<strong>Perfect curve</strong><span>Take a second to watch the board finish the reveal</span>";
       toastLayer.appendChild(toast);
       setTimeout(() => {
         toast.remove();
@@ -2180,22 +2753,24 @@
       if (startTitle) startTitle.textContent = name;
     }
 
-    function primeScareFace() {
-      if (!scareFaceImage || scareFaceImage.dataset.loaded) return;
-      scareFaceImage.dataset.loaded = "true";
-      scareFaceImage.addEventListener("load", () => {
-        scareFaceImage.classList.add("has-image");
-      }, { once: true });
-      scareFaceImage.addEventListener("error", () => {
+    function primeScareFace(src, fallbackSrc = "brycele-face.png") {
+      if (!scareFaceImage) return;
+      scareFaceImage.onerror = null;
+      scareFaceImage.onload = null;
+      scareFaceImage.onerror = () => {
+        if (src !== fallbackSrc) {
+          primeScareFace(fallbackSrc, fallbackSrc);
+          return;
+        }
         scareFaceImage.removeAttribute("src");
-      }, { once: true });
-      scareFaceImage.src = "brycele-face.jpg";
+      };
+      scareFaceImage.src = src;
     }
 
-    function triggerBryceScare() {
+    function triggerSecretScare(faceSrc, brandName) {
       if (state.scareCooldown) return;
       state.scareCooldown = true;
-      primeScareFace();
+      primeScareFace(faceSrc);
       scareOverlay.hidden = false;
       setBrandName("Curvele");
       if (state.scareTimer) {
@@ -2204,27 +2779,22 @@
       if (state.brandTimer) {
         clearTimeout(state.brandTimer);
       }
-      scareOverlay.classList.add("blackout");
-      scareOverlay.classList.remove("face-live");
+      scareOverlay.classList.add("face-live");
       state.scareTimer = setTimeout(() => {
-        scareOverlay.classList.remove("blackout");
-        scareOverlay.classList.add("face-live");
-        state.scareTimer = setTimeout(() => {
-          scareOverlay.classList.remove("face-live");
-          scareOverlay.classList.add("blackout");
-          state.scareTimer = setTimeout(() => {
-            state.scareTimer = null;
-            scareOverlay.hidden = true;
-            scareOverlay.classList.remove("face-live", "blackout");
-            setBrandName("Brycele");
-            state.brandTimer = setTimeout(() => {
-              setBrandName("Curvele");
-              state.brandTimer = null;
-              state.scareCooldown = false;
-            }, 3000);
-          }, 650);
-        }, 1300);
-      }, 900);
+        state.scareTimer = null;
+        scareOverlay.hidden = true;
+        scareOverlay.classList.remove("face-live");
+        setBrandName(brandName);
+        state.brandTimer = setTimeout(() => {
+          setBrandName("Curvele");
+          state.brandTimer = null;
+          state.scareCooldown = false;
+        }, 3000);
+      }, 1650);
+    }
+
+    function triggerBryceScare() {
+      triggerSecretScare("brycele-face.png", "Brycele");
     }
 
     function openConfirmDialog(options) {
@@ -2266,7 +2836,7 @@
             input.focus();
             return;
           }
-          if (input.value.length < 5) {
+          if (input.value.length < state.wordLength) {
             input.value = `${input.value}${key}`;
             renderBoard();
           }
@@ -2278,6 +2848,9 @@
     function randomWord(mode = state.mode) {
       if (mode === "daily") {
         return getDailyWord();
+      }
+      if (mode === "custom") {
+        return state.customWord || state.linkedCustomWord || "CURVE";
       }
       return state.answers[Math.floor(Math.random() * state.answers.length)];
     }
@@ -2337,33 +2910,6 @@
       `;
     }
 
-    function renderSignatureGraph() {
-      const name = state.playerName.trim();
-      if (!name) {
-        signatureGraph.innerHTML = `
-          <text x="12" y="68" fill="var(--muted)" font-size="18" font-weight="700">
-            Preview graph appears here as you test words.
-          </text>
-        `;
-        signatureNote.textContent = "Type anything here and it will turn into a little preview graph below.";
-        return;
-      }
-
-      const points = buildScaledSignaturePoints(name, 620, 120, 22, 20);
-      const path = pathFromPoints(points);
-      signatureGraph.innerHTML = `
-        <line x1="18" y1="20" x2="18" y2="100" stroke="rgba(255,255,255,0.12)" />
-        <line x1="18" y1="20" x2="600" y2="20" stroke="rgba(255,255,255,0.08)" stroke-dasharray="5 8" />
-        <line x1="18" y1="60" x2="600" y2="60" stroke="rgba(255,255,255,0.08)" stroke-dasharray="5 8" />
-        <line x1="18" y1="100" x2="600" y2="100" stroke="rgba(255,255,255,0.08)" stroke-dasharray="5 8" />
-        <text x="0" y="26" fill="var(--muted)" font-size="12" font-weight="700">Z</text>
-        <text x="2" y="100" fill="var(--muted)" font-size="12" font-weight="700">A</text>
-        <path d="${path}" fill="none" stroke="#8ec7ff" stroke-width="7" stroke-linecap="round" />
-        ${points.map((point) => `<circle cx="${point.x}" cy="${point.y}" r="4.5" fill="#8ec7ff" stroke="var(--point-stroke)" stroke-width="2" />`).join("")}
-      `;
-      signatureNote.textContent = `${name} is shown as a little graph preview below.`;
-    }
-
     function showResult(win, mode = "normal") {
       if (state.resultTimer) {
         clearTimeout(state.resultTimer);
@@ -2378,23 +2924,29 @@
         : isTodayDailyCompleted()
         ? `Next daily word in ${formatCountdown(getNextDailyCountdownMs())}.`
         : win
-        ? `Nice work${state.playerName ? `, ${state.playerName}` : ""}. Your final guess matched the hidden curve and spelled the correct word.`
-        : `${state.playerName ? `${state.playerName}, ` : ""}you used all six tries before landing on the correct word.`;
+        ? `Nice work${state.playerName ? `, ${state.playerName}` : ""}. The board finished the curve, and your guess matched the hidden word.`
+        : `${state.playerName ? `${state.playerName}, ` : ""}the board finished revealing the round, and you used all six tries before landing on the correct word.`;
       resultWord.textContent = `The word was ${state.secret}.`;
       resultTries.textContent = `${state.guesses.length} of ${MAX_GUESSES}`;
       resultMode.textContent = mode === "reset"
-        ? `${state.mode === "daily" ? "Daily" : "Unlimited"} Reset`
-        : `${state.mode === "daily" ? "Daily" : "Unlimited"} ${win ? "Win" : "Loss"}`;
-      resultMatches.textContent = `${exactMatches} of 5 points matched on your last guess`;
+        ? `${state.mode === "daily" ? "Daily" : state.mode === "custom" ? "Custom" : "Unlimited"} Reset`
+        : `${state.mode === "daily" ? "Daily" : state.mode === "custom" ? "Custom" : "Unlimited"} ${win ? "Win" : "Loss"}`;
+      resultMatches.textContent = `${exactMatches} of ${state.wordLength} points matched on your last guess`;
       resultLastGuess.textContent = latestGuess ? latestGuess.word : "No final guess";
       resultNextDaily.textContent = formatCountdown(getNextDailyCountdownMs());
+      resultShareCopy.textContent = state.mode === "custom"
+        ? "Share this result, or jump back to the board to keep studying how the custom curve matched up."
+        : "Share a spoiler-free summary, or jump back to the board if you want to study the curve again.";
       resultCaption.textContent = latestGuess
         ? `The white line is the answer. The colored line shows your final guess, and any green points mark exact position matches.`
         : `The white line is the answer graph for this round.`;
+      backToBoardButton.hidden = false;
+      openMainMenuButton.hidden = !(state.mode === "custom" && state.linkedCustomLocked && win);
       playAgainButton.textContent = state.mode === "daily" ? "Play Unlimited" : "Play Again";
       renderDailyHero();
       renderResultGraph();
       resultOverlay.hidden = false;
+      renderSummaryButton();
       if (isTodayDailyCompleted() || state.mode === "daily") {
         startDailyCountdown();
       } else {
@@ -2416,6 +2968,9 @@
       highContrastToggle.checked = state.highContrastGuides;
       showAllLinesToggle.checked = state.showAllGuessLines;
       reducedMotionToggle.checked = state.reducedMotion;
+      hardModeToggle.checked = state.hardMode;
+      input.maxLength = state.wordLength;
+      renderModeChrome();
       renderGraph();
       renderBoard();
       renderKeyboard();
@@ -2423,7 +2978,7 @@
       renderNewWordButton();
     }
 
-    function resetGame(mode = state.mode) {
+    function resetGame(mode = state.mode, options = {}) {
       if (state.resultTimer) {
         clearTimeout(state.resultTimer);
         state.resultTimer = null;
@@ -2437,7 +2992,7 @@
         state.brandTimer = null;
       }
       scareOverlay.hidden = true;
-      scareOverlay.classList.remove("face-live", "blackout");
+      scareOverlay.classList.remove("face-live");
       setBrandName("Curvele");
       state.scareCooldown = false;
       state.wonLastRound = false;
@@ -2445,7 +3000,19 @@
       state.mode = mode;
       state.currentDailyKey = getCurrentDailyKey();
       state.dailyCompletedKey = isTodayDailyCompleted() ? state.currentDailyKey : "";
-      state.secret = randomWord(mode);
+      state.customWord = options.customWord || (mode === "custom" ? state.customWord : "");
+      state.linkedCustomWord = options.linkedCustomWord || state.linkedCustomWord;
+      state.linkedCustomLocked = Boolean(options.linkedCustomLocked);
+      state.secret = options.secret || randomWord(mode);
+      state.wordLength = state.secret.length || DEFAULT_WORD_LENGTH;
+      input.maxLength = state.wordLength;
+      if (mode === "custom") {
+        window.location.hash = customHashForWord(state.secret);
+      } else if (window.location.hash.startsWith("#p=")) {
+        history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+        state.linkedCustomWord = "";
+        state.linkedCustomLocked = false;
+      }
       state.guesses = [];
       state.isOver = false;
       state.resultShowsDailyCountdown = false;
@@ -2459,14 +3026,16 @@
       renderKeyboard();
       renderModeStatus();
       renderNewWordButton();
+      renderSummaryButton();
+      renderModeChrome();
       if (state.mode === "daily" || isTodayDailyCompleted()) {
         startDailyCountdown();
       } else {
         stopDailyCountdown();
       }
       setHint(state.easyMode
-        ? "Easy mode is on, so the graph shows the middle guide letter. You can still guess any real five-letter word."
-        : "Tap the current row to type a real five-letter word, then compare your colored line to the white answer line.");
+        ? `Easy mode is on, so the graph shows extra guide hints. You can still guess any real ${state.wordLength}-letter word when the mode allows it.`
+        : `Tap the current row to type a ${state.wordLength}-letter word, then compare your colored line to the white answer line.`);
       input.focus();
     }
 
@@ -2475,6 +3044,7 @@
         clearTimeout(state.resultTimer);
       }
       state.wonLastRound = win;
+      recordRoundStats(win);
       if (win) {
         renderGraph();
         if (!state.reducedMotion) {
@@ -2513,8 +3083,8 @@
         return;
       }
 
-      if (guess.length !== 5) {
-        showToast("Type a five-letter word");
+      if (guess.length !== state.wordLength) {
+        showToast(`Type a ${state.wordLength}-letter word`);
         renderBoard();
         return;
       }
@@ -2524,9 +3094,18 @@
         return;
       }
 
-      if (!state.allowedWords.has(guess)) {
+      if (state.mode !== "custom" && !state.allowedWords.has(guess)) {
         showToast("Not in word list");
         return;
+      }
+
+      if (state.hardMode) {
+        const locked = getLockedExactPattern();
+        const missedLockedIndex = locked.findIndex((letter, index) => letter && guess[index] !== letter);
+        if (missedLockedIndex !== -1) {
+          showToast(`Hard mode: letter ${locked[missedLockedIndex]} must stay in spot ${missedLockedIndex + 1}`);
+          return;
+        }
       }
 
       state.guesses.push({
@@ -2560,6 +3139,7 @@
         }
         queueRoundResult(guess === state.secret);
       } else {
+        setHint(buildInsight(guess));
         input.focus();
       }
     }
@@ -2606,6 +3186,19 @@
       resetGame("unlimited");
       startNewWordCooldown();
     });
+    statsButton.addEventListener("click", () => {
+      renderStatsOverlay();
+      statsOverlay.hidden = false;
+    });
+    modesButton.addEventListener("click", () => {
+      modesOverlay.hidden = false;
+    });
+    summaryButton.addEventListener("click", () => {
+      if (!state.isOver) {
+        return;
+      }
+      showResult(state.wonLastRound);
+    });
     settingsButton.addEventListener("click", () => {
       settingsOverlay.hidden = false;
     });
@@ -2615,7 +3208,12 @@
     });
     closeRulesButton.addEventListener("click", () => {
       rulesOverlay.hidden = true;
+      stopTutorialHighlight();
       input.focus();
+    });
+    reopenTutorialButton.addEventListener("click", () => {
+      rulesOverlay.hidden = true;
+      startBoardTutorial();
     });
     startPlayButton.addEventListener("click", () => {
       startOverlay.hidden = true;
@@ -2629,50 +3227,99 @@
       input.focus();
     });
     startTutorialButton.addEventListener("click", () => {
-      startOverlay.hidden = true;
+      startBoardTutorial();
+    });
+    modeDailyButton.addEventListener("click", () => {
+      modesOverlay.hidden = true;
+      if (isTodayDailyCompleted()) {
+        resetGame("unlimited");
+        showToast("Today's daily is already complete");
+      } else {
+        resetGame("daily");
+      }
+      input.focus();
+    });
+    modeUnlimitedButton.addEventListener("click", () => {
+      modesOverlay.hidden = true;
+      resetGame("unlimited");
+      input.focus();
+    });
+    modeCustomButton.addEventListener("click", () => {
+      modesOverlay.hidden = true;
+      customOverlay.hidden = false;
+      customWordInput.focus();
+    });
+    modeTutorialButton.addEventListener("click", () => {
+      modesOverlay.hidden = true;
+      startBoardTutorial();
+    });
+    closeModesButton.addEventListener("click", () => {
+      modesOverlay.hidden = true;
+      input.focus();
+    });
+    tutorialSkip.addEventListener("click", () => {
+      tutorialOverlay.hidden = true;
+      stopTutorialHighlight();
       rulesOverlay.hidden = false;
     });
-    playerNameInput.addEventListener("input", (event) => {
-      if (state.guesses.length > 0 && state.previewNeedsResetWarning) {
-        state.pendingPreviewValue = event.target.value;
-        event.target.value = state.playerName;
-        openConfirmDialog({
-          title: "Reset The Current Round?",
-          message: "Trying a word in this preview will start a fresh round and clear the guesses you already made.",
-          onConfirm: () => {
-            state.previewNeedsResetWarning = false;
-            resetGame();
-            state.playerName = state.pendingPreviewValue.replace(/\s+/g, " ").trimStart().slice(0, 24);
-            playerNameInput.value = state.playerName;
-            renderSignatureGraph();
-          }
-        });
+    tutorialNext.addEventListener("click", () => {
+      const nextIndex = state.tutorialStepIndex + 1;
+      if (nextIndex >= TUTORIAL_STEPS.length) {
+        tutorialOverlay.hidden = true;
+        stopTutorialHighlight();
+        rulesOverlay.hidden = false;
         return;
       }
-      state.playerName = event.target.value.replace(/\s+/g, " ").trimStart().slice(0, 24);
-      event.target.value = state.playerName;
-      renderSignatureGraph();
-    });
-    clearSignatureButton.addEventListener("click", () => {
-      state.playerName = "";
-      playerNameInput.value = "";
-      renderSignatureGraph();
-      playerNameInput.focus();
+      showTutorialStep(nextIndex);
     });
     playAgainButton.addEventListener("click", () => {
       state.pendingResetAfterResult = false;
       const targetMode = state.mode === "daily" ? "unlimited" : state.mode;
       resetGame(targetMode);
     });
+    backToBoardButton.addEventListener("click", () => {
+      resultOverlay.hidden = true;
+      renderSummaryButton();
+      renderTopControls();
+      input.focus();
+    });
+    openMainMenuButton.addEventListener("click", () => {
+      resultOverlay.hidden = true;
+      state.linkedCustomLocked = false;
+      state.linkedCustomWord = "";
+      state.customWord = "";
+      history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+      startOverlay.hidden = false;
+      renderTopControls();
+    });
+    shareResultButton.addEventListener("click", async () => {
+      const shareText = buildShareTextSafe();
+      try {
+        await navigator.clipboard.writeText(shareText);
+        showToast("Result copied");
+      } catch {
+        showToast("Could not copy result");
+      }
+    });
     closeSettingsButton.addEventListener("click", () => {
       settingsOverlay.hidden = true;
       input.focus();
     });
+    openCustomFromSettings.addEventListener("click", () => {
+      customOverlay.hidden = false;
+      customWordInput.focus();
+    });
+    closeStatsButton.addEventListener("click", () => {
+      statsOverlay.hidden = true;
+      input.focus();
+    });
+    closeCustomButton.addEventListener("click", () => {
+      customOverlay.hidden = true;
+      input.focus();
+    });
     confirmCancel.addEventListener("click", () => {
-      state.pendingPreviewValue = state.playerName;
-      playerNameInput.value = state.playerName;
       closeConfirmDialog();
-      playerNameInput.focus();
+      input.focus();
     });
     confirmContinue.addEventListener("click", () => {
       const action = state.pendingConfirmAction;
@@ -2680,7 +3327,7 @@
       if (typeof action === "function") {
         action();
       }
-      playerNameInput.focus();
+      input.focus();
     });
     lightModeToggle.addEventListener("change", (event) => {
       state.lightMode = event.target.checked;
@@ -2712,8 +3359,44 @@
       state.reducedMotion = event.target.checked;
       renderGraph();
     });
+    hardModeToggle.addEventListener("change", (event) => {
+      state.hardMode = event.target.checked;
+      applySettings();
+    });
+    customWordInput.addEventListener("input", (event) => {
+      const value = event.target.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, MAX_CUSTOM_WORD_LENGTH);
+      event.target.value = value;
+      customWordNote.textContent = value.length >= MIN_CUSTOM_WORD_LENGTH
+        ? `${value.length}-letter custom challenge ready. You can play it here or copy a link for someone else.`
+        : "Custom games can use any 3 to 12 letter alphabetic answer. Shared custom puzzles keep the same answer for everyone with that link.";
+    });
+    playCustomNowButton.addEventListener("click", () => {
+      const word = customWordInput.value.toUpperCase().replace(/[^A-Z]/g, "");
+      if (word.length < MIN_CUSTOM_WORD_LENGTH) {
+        showToast("Type at least 3 letters");
+        return;
+      }
+      customOverlay.hidden = true;
+      startOverlay.hidden = true;
+      resetGame("custom", { secret: word, customWord: word, linkedCustomLocked: false });
+      input.focus();
+    });
+    copyCustomLinkButton.addEventListener("click", async () => {
+      const word = customWordInput.value.toUpperCase().replace(/[^A-Z]/g, "");
+      if (word.length < MIN_CUSTOM_WORD_LENGTH) {
+        showToast("Type at least 3 letters");
+        return;
+      }
+      const shareUrl = `${getBaseShareUrl()}${customHashForWord(word)}`;
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        showToast("Custom link copied");
+      } catch {
+        showToast("Could not copy link");
+      }
+    });
     document.addEventListener("keydown", (event) => {
-      if (startOverlay.hidden && rulesOverlay.hidden && settingsOverlay.hidden && resultOverlay.hidden && !state.isOver) {
+      if (startOverlay.hidden && rulesOverlay.hidden && settingsOverlay.hidden && resultOverlay.hidden && statsOverlay.hidden && customOverlay.hidden && modesOverlay.hidden && tutorialOverlay.hidden && !state.isOver) {
         const isTypingKey = event.key.length === 1 || event.key === "Backspace";
         if (!state.isTouchDevice && isTypingKey && document.activeElement !== input) {
           input.focus();
@@ -2724,10 +3407,16 @@
     if (state.isTouchDevice) {
       input.readOnly = true;
     }
+    state.linkedCustomWord = readCustomWordFromUrl();
     state.dailyCompletedKey = hasCompletedDaily() ? getCurrentDailyKey() : "";
     applySettings();
-    resetGame(state.dailyCompletedKey ? "unlimited" : "daily");
-    renderSignatureGraph();
+    if (state.linkedCustomWord) {
+      startOverlay.hidden = true;
+      resetGame("custom", { secret: state.linkedCustomWord, linkedCustomWord: state.linkedCustomWord, linkedCustomLocked: true });
+    } else {
+      resetGame(state.dailyCompletedKey ? "unlimited" : "daily");
+    }
+    renderStatsOverlay();
   </script>
 </body>
 </html>
