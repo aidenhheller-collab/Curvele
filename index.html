@@ -3469,8 +3469,11 @@
       document.body.classList.toggle("light-mode", state.lightMode);
       document.body.classList.toggle("high-contrast-guides", state.highContrastGuides);
       document.body.classList.toggle("desktop-keyboard", state.desktopKeyboard && !state.isTouchDevice);
-      state.answers = [...ANSWER_WORDS];
-      state.answers = state.answers.filter((word) => word !== EASTER_WORD);
+      state.answers = [...new Set(
+        state.mode === "unlimited" && state.hardMode
+          ? GUESS_WORDS
+          : ANSWER_WORDS
+      )].filter((word) => word !== EASTER_WORD);
       state.allowedWords = new Set(state.fullAllowedWords);
       lightModeToggle.checked = state.lightMode;
       easyModeToggle.checked = state.easyMode;
@@ -3510,6 +3513,12 @@
       state.mode = mode;
       state.currentDailyKey = getCurrentDailyKey();
       state.dailyCompletedKey = isTodayDailyCompleted() ? state.currentDailyKey : "";
+      state.answers = [...new Set(
+        mode === "unlimited" && state.hardMode
+          ? GUESS_WORDS
+          : ANSWER_WORDS
+      )].filter((word) => word !== EASTER_WORD);
+      state.allowedWords = new Set(state.fullAllowedWords);
       state.customWord = options.customWord || (mode === "custom" ? state.customWord : "");
       state.customGuessLimit = mode === "custom"
         ? clampCustomGuessLimit(options.customGuessLimit || state.customGuessLimit || MAX_GUESSES)
@@ -3614,6 +3623,11 @@
 
       if (state.guesses.some((entry) => entry.word === guess)) {
         showToast("You already guessed that word");
+        return;
+      }
+
+      if (state.mode !== "custom" && !state.allowedWords.has(guess)) {
+        showToast("Not in word list");
         return;
       }
 
